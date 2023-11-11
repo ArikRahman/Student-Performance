@@ -49,3 +49,21 @@ form button {
 form button:hover {
     background-color: #4cae4c;
 }
+
+#resultBox {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+#predictedGrade {
+    color: #007bff;
+    margin: 10px 0;
+}
+
+#improvementText {
+    color: #333;
+    font-style: italic;
+}

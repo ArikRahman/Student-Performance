@@ -120,7 +120,25 @@ def predict_grade():
     print(f"Input Set {0}: {input_set}")
     print(f"Predicted Output {0}: {prediction}\n")
 
-    return "Prediction" 
+    pred = round(prediction)
+
+    output = get_grade(pred)
+
+    return output 
+
+def get_grade(grade_number):
+    grade_switch = {
+        0: 'Fail',
+        1: 'DD',
+        2: 'DC',
+        3: 'CC',
+        4: 'CB',
+        5: 'BB',
+        6: 'BA',
+        7: 'AA'
+    }
+
+    return grade_switch.get(grade_number, "Invalid Grade")
 
 if __name__ == "__main__":
     app.run(debug=True)
