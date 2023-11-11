@@ -7,6 +7,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from flask import Flask, request, render_template
+from flask import jsonify
 
 # Load data
 data = pd.read_csv('StudentsPerformance_with_headers.csv')
@@ -98,13 +99,6 @@ def predict_grade():
     'COURSE ID': [request.form['course_id']]
     }
 
-    # Here, you can now use `input_data` with your prediction model
-    # For example:
-    # predicted_grade = your_model.predict(input_data)
-    
-    # Return or render a template with the prediction result
-    # return f'Predicted Grade: {predicted_grade}'
-
     # Create a DataFrame from the input data
     input_df = pd.DataFrame(input_data)
 
@@ -122,9 +116,35 @@ def predict_grade():
 
     pred = round(prediction)
 
-    output = get_grade(pred)
+    calculated_grade = get_grade(pred)
 
-    return output 
+    highest_grade = pred
+    
+    additional_info = get_text(pred)
+
+    if (pred == 7):
+        additional_info = "You're doing great, keep doing what you're doing!"
+    
+
+    # Return a JSON response
+    return jsonify({
+        "grade": calculated_grade,
+        "additionalInfo": additional_info
+    })
+
+def get_text(text_number):
+    text_switch = {
+        0: "IDK man, you should probably drop out at that point",
+        1: "There's definitely a lot to do",
+        2: "You need to work on everything",
+        3: "You're right on the border, maybe go to office hours?",
+        4: "You're passing, keep improving",
+        5: "You're doing pretty well, you're on the right track!",
+        6: "You're doing good, very little to improve!",
+        7: "You're doing perfect, keep doing what you're doing!"
+    }
+
+    return text_switch.get(text_number, "Invalid Num")
 
 def get_grade(grade_number):
     grade_switch = {

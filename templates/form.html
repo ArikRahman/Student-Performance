@@ -319,11 +319,10 @@
             <p id="predictionText">Your Predicted Grade Is:</p>
             <p id="predictedGrade" style="font-size: 24px; font-weight: bold;"></p>
             <p id="improvementText">Here's how you can improve your grade:</p>
+            <p id="additionalInfo"></p>
         </div>
 
     </form>
-
-
 
     <script>
         document.getElementById('submitBtn').addEventListener('click', function() {
@@ -333,16 +332,17 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text())
-            .then(grade => {
+            .then(response => response.json())
+            .then(data => {
                 document.getElementById('resultBox').style.display = 'block';
-                document.getElementById('predictedGrade').innerText = grade;
+                document.getElementById('predictedGrade').innerText = data.grade;
+                document.getElementById('additionalInfo').innerText = data.additionalInfo;
             })
             .catch(error => {
                 console.error('Error:', error);
-                //document.getElementById('result').innerText = 'Error occurred!';
                 document.getElementById('resultBox').style.display = 'block';
                 document.getElementById('predictedGrade').innerText = 'Error occurred!';
+                document.getElementById('additionalInfo').innerText = 'Error';
             });
         });
 
