@@ -6,23 +6,10 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+from flask import Flask, request, render_template
 
 # Load data
 data = pd.read_csv('StudentsPerformance_with_headers.csv')
-
-# # Features to duplicate
-# features_to_duplicate = ['Additional work', 'Weekly study hours', 'Reading frequency', 
-#                          'Attendance to the seminars/conferences related to the department', 'Attendance to classes', 
-#                          'Preparation to midterm exams 1', 'Preparation to midterm exams 2', 
-#                          'Taking notes in classes', 'Listening in classes']
-
-# # Check and duplicate the selected features
-# for feature in features_to_duplicate:
-#     if feature in data.columns:
-#         for i in range(3):  # Duplicate each feature 3 times, for example
-#             data[f'{feature}_dup_{i}'] = data[feature]
-#     else:
-#         print(f"Feature '{feature}' not found in the DataFrame.")
 
 # Preprocess data
 categorical_features = data.select_dtypes(include=['object']).columns
@@ -67,60 +54,73 @@ preds = pipeline.predict(X_test)
 score = mean_squared_error(y_test, preds)
 print('MSE:', score)
 
-# # Output predictions and input sets
-# for i in range(len(X_test)):
-#     input_set = X_test.iloc[i]  # Get the input set
-#     prediction = preds[i]      # Get the corresponding prediction
-#     print(f"Input Set {i + 1}: {input_set}")
-#     print(f"Predicted Output {i + 1}: {prediction}\n")
+app = Flask(__name__)
 
-# Example input data (replace with your actual data and feature names)
-input_data = {
-    'STUDENT ID': ["Student111"],
-    'Student Age': [2],
-    'Sex': [2],
-    'Graduated high-school type': [3],
-    'Scholarship type': [3],
-    'Additional work': [1],
-    'Regular artistic or sports activity': [2],
-    'Do you have a partner': [2],
-    'Total salary if available': [1],
-    'Transportation to the university': [1],
-    'Accommodation type in Cyprus': [1],
-    'Mother’s education': [1],
-    'Father’s education ': [2],
-    'Number of sisters/brothers': [3],
-    'Parental status': [1],
-    'Mother’s occupation': [2],
-    'Father’s occupation': [5],
-    'Weekly study hours': [3],
-    'Reading frequency.1': [2],
-    'Reading frequency': [2],
-    'Attendance to the seminars/conferences related to the department': [1],
-    'Impact of your projects/activities on your success': [1],
-    'Attendance to classes': [1],
-    'Preparation to midterm exams 1': [1],
-    'Preparation to midterm exams 2': [1],
-    'Taking notes in classes': [3],
-    'Listening in classes': [2],
-    'Discussion improves my interest and success in the course': [1],
-    'Flip-classroom': [2],
-    'Cumulative grade point average in the last semester (/4.00)': [1],
-    'Expected Cumulative grade point average in the graduation (/4.00)': [1],
-    'COURSE ID': [1]
-}
+@app.route('/')
+def form():
+    return render_template('form.html')  # Your HTML file
 
-# Create a DataFrame from the input data
-input_df = pd.DataFrame(input_data)
+@app.route('/predict_grade', methods=['POST'])
+def predict_grade():
+    # Extracting form data
+    input_data = {
+    'STUDENT ID': [request.form['student_id']],
+    'Student Age': [request.form['student_age']],
+    'Sex': [request.form['student_sex']],
+    'Graduated high-school type': [request.form['highschool_type']],
+    'Scholarship type': [request.form['scholarship_type']],
+    'Additional work': [request.form['student_work']],
+    'Regular artistic or sports activity': [request.form['student_activity']],
+    'Do you have a partner': [request.form['partner']],
+    'Total salary if available': [request.form['salary']],
+    'Transportation to the university': [request.form['transportation']],
+    'Accommodation type in Cyprus': [request.form['accomodation']],
+    'Mother’s education': [request.form['mother_education']],
+    'Father’s education ': [request.form['father_education']],
+    'Number of sisters/brothers': [request.form['siblings']],
+    'Parental status': [request.form['parental_status']],
+    'Mother’s occupation': [request.form['mother_occupation']],
+    'Father’s occupation': [request.form['father_occupation']],
+    'Weekly study hours': [request.form['study_hours']],
+    'Reading frequency.1': [request.form['reading_frequency_non_sci']],
+    'Reading frequency': [request.form['reading_frequency_sci']],
+    'Attendance to the seminars/conferences related to the department': [request.form['attendance_seminars']],
+    'Impact of your projects/activities on your success': [request.form['project_impact']],
+    'Attendance to classes': [request.form['class_attendance']],
+    'Preparation to midterm exams 1': [request.form['prep_midterm1']],
+    'Preparation to midterm exams 2': [request.form['prep_midterm2']],
+    'Taking notes in classes': [request.form['taking_notes']],
+    'Listening in classes': [request.form['listening_classes']],
+    'Discussion improves my interest and success in the course': [request.form['discussion_impact']],
+    'Flip-classroom': [request.form['flip_classroom']],
+    'Cumulative grade point average in the last semester (/4.00)': [request.form['last_sem_gpa']],
+    'Expected Cumulative grade point average in the graduation (/4.00)': [request.form['expected_gpa']],
+    'COURSE ID': [request.form['course_id']]
+    }
 
-# Use the trained pipeline to make a prediction
-predicted_grade = pipeline.predict(input_df)
+    # Here, you can now use `input_data` with your prediction model
+    # For example:
+    # predicted_grade = your_model.predict(input_data)
+    
+    # Return or render a template with the prediction result
+    # return f'Predicted Grade: {predicted_grade}'
 
-# Print the prediction
-print('Predicted GRADE:', predicted_grade[0])
+    # Create a DataFrame from the input data
+    input_df = pd.DataFrame(input_data)
 
-# Output predictions and input sets
-input_set = input_df.iloc[0]  # Get the input set
-prediction = predicted_grade[0]      # Get the corresponding prediction
-print(f"Input Set {0}: {input_set}")
-print(f"Predicted Output {0}: {prediction}\n")
+    # Use the trained pipeline to make a prediction
+    predicted_grade = pipeline.predict(input_df)
+
+    # Print the prediction
+    print('Predicted GRADE:', predicted_grade[0])
+
+    # Output predictions and input sets
+    input_set = input_df.iloc[0]  # Get the input set
+    prediction = predicted_grade[0]      # Get the corresponding prediction
+    print(f"Input Set {0}: {input_set}")
+    print(f"Predicted Output {0}: {prediction}\n")
+
+    return "Form Submitted"  # Placeholder response
+
+if __name__ == '__main__':
+    app.run(debug=True)
