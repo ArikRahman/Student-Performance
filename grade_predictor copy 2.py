@@ -120,7 +120,7 @@ def predict_grade():
     print(f"Input Set {0}: {input_set}")
     print(f"Predicted Output {0}: {prediction}\n")
 
-    return "Form Submitted"  # Placeholder response
+    return "Prediction" 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
