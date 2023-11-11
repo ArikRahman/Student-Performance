@@ -32,45 +32,30 @@ preprocessor = ColumnTransformer(
 
 # Define the model
 low = 1.30
-for i in range(200,100000):
-    model = RandomForestRegressor(n_estimators=100, random_state=i)
+model = RandomForestRegressor(n_estimators=100, random_state=1606)
 
-    
-    
 
-    # Create and evaluate the pipeline
-    pipeline = Pipeline(steps=[('preprocessor', preprocessor),
-                            ('model', model)])
 
-    # Separate target from predictors
-    y = data['GRADE']
-    X = data.drop('GRADE', axis=1)
 
-    # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# Create and evaluate the pipeline
+pipeline = Pipeline(steps=[('preprocessor', preprocessor),
+                        ('model', model)])
 
-    # Preprocessing of training data, fit model 
-    pipeline.fit(X_train, y_train)
+# Separate target from predictors
+y = data['GRADE']
+X = data.drop('GRADE', axis=1)
 
-    # Preprocessing of validation data, get predictions
-    preds = pipeline.predict(X_test)
+# Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    # Evaluate the model
-    score = mean_squared_error(y_test, preds)
-    print('MSE:', score)
-    if score < low:
-        low = score
-        print(i)
-        print("is new low")
-        output = str(i)
+# Preprocessing of training data, fit model 
+pipeline.fit(X_train, y_train)
 
-        # Open the file in write mode ('w')
-        file = open("lowest.txt", "w")
+# Preprocessing of validation data, get predictions
+preds = pipeline.predict(X_test)
 
-        # Write the output to the file
-        file.write(output)
-
-        # Close the file
-        file.close()
+# Evaluate the model
+score = mean_squared_error(y_test, preds)
+print('MSE:', score)
 
 
