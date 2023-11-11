@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Student Grade Predictor</h1>
+    <form action="/predict_grade" method="post">
+
+        <div>
+            <label for="student_id">Student ID:</label>
+            <input type="text" id="student_id" name="student_id">
+        </div>
+
+        <div>
+            <label for="student_age">Student Age:</label>
+            <select id="student_age" name="student_age">
+                <option value="1">18-21</option>
+                <option value="2">22-25</option>
+                <option value="3">Above 26</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="sex">Sex:</label>
+            <select id="sex" name="sex">
+                <option value="1">Female</option>
+                <option value="2">Male</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="highschool_type">Graduated High-School Type:</label>
+            <select id="highschool_type" name="highschool_type">
+                <option value="1">Private</option>
+                <option value="2">State</option>
+                <option value="3">Other</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="scholarship_type">Scholarship Type:</label>
+            <select id="scholarship_type" name="scholarship_type">
+                <option value="1">None</option>
+                <option value="2">25%</option>
+                <option value="3">50%</option>
+                <option value="4">75%</option>
+                <option value="5">Full</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="work">Additional Work:</label>
+            <select id="work" name="work">
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="activity">Regular Artistic or Sports Activity:</label>
+            <select id="activity" name="activity">
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="partner">Do You Have A Partner:</label>
+            <select id="partner" name="partner">
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="salary">Total Salary If Availible:</label>
+            <select id="salary" name="salary">
+                <option value="1">USD 135-200</option>
+                <option value="2">USD 201-270</option>
+                <option value="3">USD 271-340</option>
+                <option value="4">USD 341-410</option>
+                <option value="5">Above 410</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="transportation">Transportation to the University:</label>
+            <select id="transportation" name="transportation">
+                <option value="1">Bus</option>
+                <option value="2">Private</option>
+                <option value="3">Car/Taxi</option>
+                <option value="4">Bicycle</option>
+                <option value="5">Other</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="mother_education">Mother's Education:</label>
+            <select id="mother_education" name="mother_education">
+                <option value="1">Primary School</option>
+                <option value="2">Secondary School</option>
+                <option value="3">High-School</option>
+                <option value="4">University</option>
+                <option value="5">MSc</option>
+                <option value="6">Ph.D.</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="father_education">Father's Education:</label>
+            <select id="father_education" name="father_education">
+                <option value="1">Primary School</option>
+                <option value="2">Secondary School</option>
+                <option value="3">High-School</option>
+                <option value="4">University</option>
+                <option value="5">MSc</option>
+                <option value="6">Ph.D.</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="siblings">Number of Sisters/Brothers:</label>
+            <select id="siblings" name="siblings">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5 or above</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="parental_status">Parental Status:</label>
+            <select id="parental_status" name="parental_status">
+                <option value="1">Married</option>
+                <option value="2">Divorced</option>
+                <option value="3">Died - one of them or both</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="mother_occupation">Mother's Occupation:</label>
+            <select id="mother_occupation" name="mother_occupation">
+                <option value="1">Retired</option>
+                <option value="2">Housewife</option>
+                <option value="3">Government Officer</option>
+                <option value="4">Private Sector Employee</option>
+                <option value="5">Self-Employment</option>
+                <option value="6">Other</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="father_occupation">Father's Occupation:</label>
+            <select id="father_occupation" name="father_occupation">
+                <option value="1">Retired</option>
+                <option value="2">Government Officer</option>
+                <option value="3">Private Sector Employee</option>
+                <option value="4">Self-Employment</option>
+                <option value="5">Other</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="study_hours">Weekly Study Hours:</label>
+            <select id="study_hours" name="study_hours">
+                <option value="1">None</option>
+                <option value="2">&lt;5 hours</option>
+                <option value="3">6-10 hours</option>
+                <option value="4">11-20 hours</option>
+                <option value="5">More than 20 hours</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="reading_frequency_non_sci">Reading Frequency (Non-Scientific Books/Journals):</label>
+            <select id="reading_frequency_non_sci" name="reading_frequency_non_sci">
+                <option value="1">None</option>
+                <option value="2">Sometimes</option>
+                <option value="3">Often</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="reading_frequency_sci">Reading Frequency (Scientific Books/Journals):</label>
+            <select id="reading_frequency_sci" name="reading_frequency_sci">
+                <option value="1">None</option>
+                <option value="2">Sometimes</option>
+                <option value="3">Often</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="attendance_seminars">Attendance to Seminars/Conferences:</label>
+            <select id="attendance_seminars" name="attendance_seminars">
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="project_impact">Impact of Projects/Activities on Success:</label>
+            <select id="project_impact" name="project_impact">
+                <option value="1">Positive</option>
+                <option value="2">Negative</option>
+                <option value="3">Neutral</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="class_attendance">Attendance to Classes:</label>
+            <select id="class_attendance" name="class_attendance">
+                <option value="1">Always</option>
+                <option value="2">Sometimes</option>
+                <option value="3">Never</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="prep_midterm1">Preparation to Midterm Exams 1:</label>
+            <select id="prep_midterm1" name="prep_midterm1">
+                <option value="1">Alone</option>
+                <option value="2">With Friends</option>
+                <option value="3">Not Applicable</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="prep_midterm2">Preparation to Midterm Exams 2:</label>
+            <select id="prep_midterm2" name="prep_midterm2">
+                <option value="1">Closest date to the exam</option>
+                <option value="2">Regularly during the semester</option>
+                <option value="3">Never</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="taking_notes">Taking Notes in Classes:</label>
+            <select id="taking_notes" name="taking_notes">
+                <option value="1">Never</option>
+                <option value="2">Sometimes</option>
+                <option value="3">Always</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="listening_classes">Listening in Classes:</label>
+            <select id="listening_classes" name="listening_classes">
+                <option value="1">Never</option>
+                <option value="2">Sometimes</option>
+                <option value="3">Always</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="discussion_impact">Discussion Improves My Interest and Success:</label>
+            <select id="discussion_impact" name="discussion_impact">
+                <option value="1">Never</option>
+                <option value="2">Sometimes</option>
+                <option value="3">Always</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="flip_classroom">Flip-Classroom:</label>
+            <select id="flip_classroom" name="flip_classroom">
+                <option value="1">Not Useful</option>
+                <option value="2">Useful</option>
+                <option value="3">Not Applicable</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="last_sem_gpa">Cumulative GPA Last Semester (/4.00):</label>
+            <select id="last_sem_gpa" name="last_sem_gpa">
+                <option value="1"><2.00</option>
+                <option value="2">2.00-2.49</option>
+                <option value="3">2.50-2.99</option>
+                <option value="4">3.00-3.49</option>
+                <option value="5">Above 3.49</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="expected_gpa">Expected Cumulative GPA at Graduation (/4.00):</label>
+            <select id="expected_gpa" name="expected_gpa">
+                <option value="1"><2.00</option>
+                <option value="2">2.00-2.49</option>
+                <option value="3">2.50-2.99</option>
+                <option value="4">3.00-3.49</option>
+                <option value="5">Above 3.49</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="course_id">Course ID:</label>
+            <input type="text" id="course_id" name="course_id">
+        </div>
+
+        <button type="submit">Predict Grade</button>
+    </form>
+</body>
+</html>
