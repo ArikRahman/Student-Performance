@@ -31,46 +31,32 @@ preprocessor = ColumnTransformer(
         ('cat', categorical_transformer, categorical_features)])
 
 # Define the model
-low = 1.30
-for i in range(200,100000):
-    model = RandomForestRegressor(n_estimators=100, random_state=i)
+model = RandomForestRegressor(n_estimators=100, random_state=4915)
 
-    
-    
+# Create and evaluate the pipeline
+pipeline = Pipeline(steps=[('preprocessor', preprocessor),
+                           ('model', model)])
 
-    # Create and evaluate the pipeline
-    pipeline = Pipeline(steps=[('preprocessor', preprocessor),
-                            ('model', model)])
+# Separate target from predictors
+y = data['GRADE']
+X = data.drop('GRADE', axis=1)
 
-    # Separate target from predictors
-    y = data['GRADE']
-    X = data.drop('GRADE', axis=1)
+# Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# Preprocessing of training data, fit model 
+pipeline.fit(X_train, y_train)
 
-    # Preprocessing of training data, fit model 
-    pipeline.fit(X_train, y_train)
+# Preprocessing of validation data, get predictions
+preds = pipeline.predict(X_test)
 
-    # Preprocessing of validation data, get predictions
-    preds = pipeline.predict(X_test)
+# Evaluate the model
+score = mean_squared_error(y_test, preds)
+print('MSE:', score)
 
-    # Evaluate the model
-    score = mean_squared_error(y_test, preds)
-    print('MSE:', score)
-    if score < low:
-        low = score
-        print(i)
-        print("is new low")
-        output = str(i)
-
-        # Open the file in write mode ('w')
-        file = open("lowest.txt", "w")
-
-        # Write the output to the file
-        file.write(output)
-
-        # Close the file
-        file.close()
-
-
+# Output predictions and input sets
+for i in range(len(X_test)):
+    input_set = X_test.iloc[i]  # Get the input set
+    prediction = preds[i]      # Get the corresponding prediction
+    print(f"Input Set {i + 1}: {input_set}")
+    print(f"Predicted Output {i + 1}: {prediction}\n")
